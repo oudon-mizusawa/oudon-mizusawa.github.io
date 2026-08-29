@@ -44,8 +44,10 @@ export default function RirekishoPage() {
               {/* 節ごとに罫線の欄で囲って、畳んでおく。
                   紙の履歴書は全部見えているものだが、画面では縦に長くなりすぎる。
                   見出しだけ並べて、見たい欄を開いてもらう形にする。 */}
-              {rirekisho.sections.map((s) => (
-                <details key={s.heading} className="rireki-box">
+              {rirekisho.sections.map((s, i) => (
+                /* 全部閉じていると開いた瞬間の情報量が無になるので、
+                   先頭（基本情報）だけ開けておく */
+                <details key={s.heading} className="rireki-box" open={i === 0}>
                   <summary className="rireki-box__head">{s.heading}</summary>
                   <div className="rireki-box__body">
                     <div
