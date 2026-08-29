@@ -66,12 +66,6 @@ export default function SkillTable({ skills }: { skills: Skill[] }) {
               <td>{s.name}</td>
             </tr>
           ))}
-          {/* 書ける欄が余っている紙の感じを、絞り込んだ後も保つ */}
-          <tr>
-            <td />
-            <td />
-            <td />
-          </tr>
         </tbody>
       </table>
     </div>

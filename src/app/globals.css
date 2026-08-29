@@ -555,8 +555,7 @@ body {
 .prose--rirekisho td {
   border: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
   padding: 0.6rem 0.75rem;
-  /* 何も書いていない行にも高さを持たせる。
-     「書ける欄が余っている」状態こそが履歴書の見た目の核 */
+  /* 1 行の高さを揃えて、罫線の間隔を一定に見せる */
   height: 2.7rem;
   vertical-align: top;
 }
@@ -576,12 +575,6 @@ body {
   /* 和文は文字単位で折れるので、放っておくと「2021年12 / 月〜2024年2 / 月」になる。
      keep-all で日付の途中を切らせず、範囲の «〜» でだけ折り返させる */
   word-break: keep-all;
-}
-
-/* 職歴の締め。本物と同じく右寄せで置く */
-.rireki-end {
-  display: block;
-  text-align: right;
 }
 
 /* 備考。本物の様式でいう「本人希望記入欄」にあたる、罫線で囲った自由記入欄。
