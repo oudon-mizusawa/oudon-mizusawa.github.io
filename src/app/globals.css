@@ -693,10 +693,85 @@ body {
   }
 }
 
-/* 節の見出しも字間を開けて、書式の一部に見せる */
-.prose--rirekisho h2 {
-  letter-spacing: 0.34em;
-  text-indent: 0.34em;
+/* --- 履歴書の «欄»。節ごとに罫線で囲って、畳んでおく --- */
+.rireki-box {
+  border: 2px solid var(--ink);
+  margin-top: 1.5rem;
+}
+
+/* 見出しの行。ここが押せる */
+.rireki-box__head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+  /* 本物の様式の «学　歴・職　歴» と同じ組み方 */
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+/* 既定の三角を消して、自前の印を出す */
+.rireki-box__head::-webkit-details-marker {
+  display: none;
+}
+
+.rireki-box__head::before {
+  content: '＋';
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-indent: 0;
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  transition: color 0.2s ease;
+}
+
+.rireki-box[open] .rireki-box__head::before {
+  content: '−';
+}
+
+.rireki-box__head:hover::before {
+  color: var(--ink);
+}
+
+/* 開いたときだけ、見出しと中身のあいだに罫を引く */
+.rireki-box[open] .rireki-box__head {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
+}
+
+.rireki-box__body {
+  padding: 1.1rem 1rem 1.3rem;
+}
+
+/* 欄の中では、最初の要素の上に余白を作らない */
+.rireki-box__body > .prose > :first-child {
+  margin-top: 0;
+}
+
+.rireki-box__body .prose h3 {
+  margin-top: 1.6rem;
+}
+
+.rireki-box__body .prose h3:first-child {
+  margin-top: 0;
+}
+
+@media (max-width: 560px) {
+  .rireki-box__head {
+    font-size: 0.88rem;
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+    padding: 0.8rem 0.8rem;
+  }
+
+  .rireki-box__body {
+    padding: 0.9rem 0.8rem 1.1rem;
+  }
 }
 
 .prose blockquote {

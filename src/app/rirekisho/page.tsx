@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import BackLink from '@/components/BackLink';
 import Image from 'next/image';
 import { asset } from '@/lib/basePath';
@@ -10,16 +9,9 @@ import SkillTable from '@/components/SkillTable';
 
 export const metadata: Metadata = { title: 'rirekisho — keepSTEEP' };
 
-/* スキル欄だけは絞り込みが要るので、md の中に置いた目印でここだけ差し替える。
-   目印より前と後ろは、今までどおり md をそのまま流し込む */
-const SKILL_MARKER = '<!--skills-->';
-
 export default function RirekishoPage() {
   const rirekisho = getRirekisho();
   const skills = getSkills();
-  const [before, after] = rirekisho
-    ? rirekisho.html.split(SKILL_MARKER)
-    : ['', ''];
 
   return (
     <div className="sheet">
@@ -30,7 +22,7 @@ export default function RirekishoPage() {
           {/* 仕事を頼むか判断するページなので、ここには顔を出す */}
           <header className="who">
             <Image
-              src={asset("/avatar.webp")}
+              src={asset('/avatar.webp')}
               alt="oudon"
               width={700}
               height={700}
@@ -46,23 +38,30 @@ export default function RirekishoPage() {
             <>
               <div
                 className="prose prose--rirekisho"
-                dangerouslySetInnerHTML={{ __html: before }}
+                dangerouslySetInnerHTML={{ __html: rirekisho.intro }}
               />
-              {skills.length > 0 && <SkillTable skills={skills} />}
-              {after !== undefined && (
-                <div
-                  className="prose prose--rirekisho"
-                  dangerouslySetInnerHTML={{ __html: after ?? '' }}
-                />
-              )}
+
+              {/* 節ごとに罫線の欄で囲って、畳んでおく。
+                  紙の履歴書は全部見えているものだが、画面では縦に長くなりすぎる。
+                  見出しだけ並べて、見たい欄を開いてもらう形にする。 */}
+              {rirekisho.sections.map((s) => (
+                <details key={s.heading} className="rireki-box">
+                  <summary className="rireki-box__head">{s.heading}</summary>
+                  <div className="rireki-box__body">
+                    <div
+                      className="prose prose--rirekisho"
+                      dangerouslySetInnerHTML={{ __html: s.html }}
+                    />
+                    {s.hasSkills && skills.length > 0 && <SkillTable skills={skills} />}
+                  </div>
+                </details>
+              ))}
             </>
           ) : (
             <p className="prose prose--empty">content/rirekisho.md がまだない。</p>
           )}
 
-          <BackLink href="/">
-            ← modoru
-          </BackLink>
+          <BackLink href="/">← modoru</BackLink>
         </article>
       </Reveal>
     </div>

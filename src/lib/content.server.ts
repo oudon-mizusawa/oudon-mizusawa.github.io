@@ -107,14 +107,42 @@ export function renderMarkdown(md: string): string {
   return marked.parse(md, { async: false }) as string;
 }
 
+/** 履歴書の 1 節。## の見出しごとに切って、枠で囲って開閉できるようにする */
+export type Section = { heading: string; html: string; hasSkills: boolean };
+
+/** スキル欄をどこに差し込むかの目印。md の中に置いてある */
+const SKILL_MARKER = '<!--skills-->';
+
 /** 履歴書も md で編集できるようにする（GitHub に push したら反映される） */
-export function getRirekisho(): { title: string; html: string } | null {
+export function getRirekisho(): {
+  title: string;
+  /** 最初の見出しより前。顔の下にそのまま出す */
+  intro: string;
+  sections: Section[];
+} | null {
   const p = path.join(process.cwd(), 'content', 'rirekisho.md');
   if (!fs.existsSync(p)) return null;
   const { data, content } = readMd(p);
+  const html = renderMarkdown(content.trim());
+
+  // <h2> で切る。見出しの前が intro、以降が 1 節ずつ
+  const parts = html.split(/<h2[^>]*>([\s\S]*?)<\/h2>/);
+  const intro = parts[0] ?? '';
+  const sections: Section[] = [];
+  for (let i = 1; i < parts.length; i += 2) {
+    const body = parts[i + 1] ?? '';
+    sections.push({
+      // 見出しに入りうるタグを落として素の文字にする
+      heading: parts[i].replace(/<[^>]*>/g, '').trim(),
+      html: body.replace(SKILL_MARKER, ''),
+      hasSkills: body.includes(SKILL_MARKER),
+    });
+  }
+
   return {
     title: typeof data.title === 'string' ? data.title : 'rirekisho',
-    html: renderMarkdown(content.trim()),
+    intro,
+    sections,
   };
 }
 
