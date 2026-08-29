@@ -86,6 +86,26 @@ export default function ScatterPlane({ items }: { items: Item[] }) {
         {/* zenbu / syumi は外した。物が全部 syumi なので、どちらを押しても同じ集合が出て
             «絞り込めるように見えて何も起きない» ボタンになっていた。
             カテゴリが 2 つ以上になったら、また出す */}
+
+        {/* 外に出ていく先。別タブで開く。
+            rirekisho より上に置いて、いちばん押しやすい隅は rirekisho に残す */}
+        <a
+          href="https://x.com/keepSTEEP"
+          className="nav__link nav__link--page"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          x
+        </a>
+        <a
+          href="https://github.com/oudon-mizusawa"
+          className="nav__link nav__link--page"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          github
+        </a>
+
         <Link href="/rirekisho" className="nav__link nav__link--page">
           rirekisho
         </Link>
