@@ -6,7 +6,7 @@ import type { Skill } from '@/lib/items';
 /**
  * 履歴書のスキル欄。
  *
- * 言語 / DB / OS と分けて表を並べると、どこに何があるか探すことになるので、
+ * 言語 / DB / OS / 資格 と分けて表を並べると、どこに何があるか探すことになるので、
  * 1 枚の表に全部入れてカテゴリで絞れるようにする。
  * カテゴリのボタンは表の中身から作るので、行を足すだけで増える。
  */
@@ -55,7 +55,7 @@ export default function SkillTable({ skills }: { skills: Skill[] }) {
           <tr>
             <th>カテゴリ</th>
             <th>経験</th>
-            <th>技術</th>
+            <th>内容</th>
           </tr>
         </thead>
         <tbody>
